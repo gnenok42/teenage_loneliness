@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подростковое одиночество — Памятка</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e18;
+    --surface: #161626;
+    --surface2: #1e1e32;
+    --accent1: #9b7fe8;
+    --accent2: #e87fa0;
+    --accent3: #7fd8e8;
+    --text: #e8e4f0;
+    --text-muted: #8a85a0;
+    --gold: #e8c87f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* ── BACKGROUND ORBS ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+    pointer-events: none;
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 500px; height: 500px; background: var(--accent1); top: -150px; left: -100px; animation-delay: 0s; }
+  .orb2 { width: 400px; height: 400px; background: var(--accent2); bottom: -100px; right: -100px; animation-delay: -7s; }
+  .orb3 { width: 300px; height: 300px; background: var(--accent3); top: 50%; left: 50%; animation-delay: -14s; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(40px, 30px) scale(1.1); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(14,14,24,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(155,127,232,0.15);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent1);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--accent1); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+  }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s ease forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s ease forwards;
+  }
+
+  .hero-title span {
+    font-style: italic;
+    color: var(--accent1);
+  }
+
+  .hero-subtitle {
+    max-width: 560px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s ease forwards;
+  }
+
+  .hero-stat-row {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s ease forwards;
+    width: 100%;
+  }
+
+  .hero-stat {
+    text-align: center;
+    min-width: 110px;
+    flex: 0 0 auto;
+  }
+
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent1);
+    line-height: 1;
+    display: block;
+  }
+
+  .hero-stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s ease forwards;
+    z-index: 1;
+    white-space: nowrap;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent1), transparent);
+    animation: lineGrow 2s 1.5s ease-in-out infinite;
+  }
+
+  @keyframes lineGrow {
+    0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-label-chapter {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent2), var(--accent1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .section-label.in-view .section-label-chapter {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .section-label-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .section-label-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+
+  .section-label-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .section-label-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(232,127,160,0.5), transparent);
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: opacity 0.6s 0.3s ease, transform 0.6s 0.3s ease;
+  }
+
+  .section-label.in-view .section-label-line {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 3rem;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--accent1);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .divider hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(155,127,232,0.3), transparent);
+  }
+
+  /* ── KINDS GRID ── */
+  .kinds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .kind-card {
+    background: var(--surface);
+    border: 1px solid rgba(155,127,232,0.12);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .kind-card.visible {
+    animation: cardReveal 0.6s ease forwards;
+  }
+
+  .kind-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(155,127,232,0.4);
+    box-shadow: 0 20px 60px rgba(155,127,232,0.12);
+  }
+
+  .kind-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .kind-card:nth-child(1)::before { background: linear-gradient(to right, var(--accent1), var(--accent2)); }
+  .kind-card:nth-child(2)::before { background: linear-gradient(to right, var(--accent2), var(--gold)); }
+  .kind-card:nth-child(3)::before { background: linear-gradient(to right, var(--gold), var(--accent3)); }
+  .kind-card:nth-child(4)::before { background: linear-gradient(to right, var(--accent3), var(--accent1)); }
+
+  .kind-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .kind-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+
+  .kind-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* ── CAUSES ── */
+  .causes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cause-item {
+    background: var(--surface);
+    border: 1px solid rgba(232,127,160,0.1);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: border-color 0.3s, transform 0.3s;
+    opacity: 0;
+    transform: translateX(-30px);
+    cursor: default;
+  }
+
+  .cause-item.visible {
+    animation: slideRight 0.5s ease forwards;
+  }
+
+  .cause-item:hover {
+    border-color: rgba(232,127,160,0.35);
+    transform: translateX(6px);
+  }
+
+  .cause-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: rgba(232,127,160,0.25);
+    line-height: 1;
+    min-width: 2.5rem;
+  }
+
+  .cause-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--accent2);
+  }
+
+  .cause-content p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  /* ── INFLUENCE TABS ── */
+  .tabs-wrapper {
+    position: relative;
+  }
+
+  .tab-buttons {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 6px;
+    width: fit-content;
+  }
+
+  .tab-btn {
+    padding: 0.7rem 2rem;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .tab-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  .tab-btn.positive.active { color: var(--accent3); }
+  .tab-btn.negative.active { color: var(--accent2); }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .influence-card {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 1.8rem;
+    border: 1px solid rgba(127,216,232,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .influence-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  }
+
+  .tab-panel.negative .influence-card {
+    border-color: rgba(232,127,160,0.1);
+  }
+
+  .influence-card:hover.neg { box-shadow: 0 16px 40px rgba(232,127,160,0.1); }
+
+  .inf-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .inf-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .tab-panel.positive .inf-title { color: var(--accent3); }
+  .tab-panel.negative .inf-title { color: var(--accent2); }
+
+  .inf-desc {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  /* ── RESEARCH ── */
+  .research-section {
+    background: var(--surface);
+    border-radius: 24px;
+    border: 1px solid rgba(155,127,232,0.15);
+    padding: 3rem;
+    margin: 0 2rem;
+    max-width: 1060px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-block {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    border-radius: 16px;
+    border: 1px solid rgba(155,127,232,0.12);
+    transition: border-color 0.3s;
+  }
+
+  .stat-block:hover { border-color: rgba(155,127,232,0.4); }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.3rem;
+    counter-reset: val attr(data-val);
+  }
+
+  .stat-value.p1 { color: var(--accent2); }
+  .stat-value.p2 { color: var(--accent1); }
+  .stat-value.p3 { color: var(--gold); }
+  .stat-value.p4 { color: var(--accent3); }
+
+  .stat-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .research-conclusion {
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 1.5rem 2rem;
+    border-left: 4px solid var(--accent1);
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+
+  .research-conclusion strong {
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  /* ── METHODS ── */
+  .methods-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .method-card {
+    background: var(--surface);
+    border-radius: 18px;
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s, box-shadow 0.35s;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .method-card.visible {
+    animation: cardReveal 0.6s ease forwards;
+  }
+
+  .method-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  }
+
+  .method-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 1.2rem;
+  }
+
+  .badge-low    { background: rgba(127,216,232,0.12); color: var(--accent3); }
+  .badge-med    { background: rgba(232,200,127,0.12); color: var(--gold); }
+  .badge-high   { background: rgba(232,127,160,0.12); color: var(--accent2); }
+
+  .method-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.035);
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    line-height: 1;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .method-badge,
+  .method-name,
+  .method-desc,
+  .method-footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  .method-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .method-desc {
+    color: var(--text-muted);
+    font-size: 0.87rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+
+  .method-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1rem;
+  }
+
+  .method-eff-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .method-eff-stars {
+    display: flex;
+    gap: 3px;
+  }
+
+  .star {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(155,127,232,0.2);
+  }
+
+  .star.filled { background: var(--accent1); }
+
+  /* ── CONCLUSION ── */
+  .conclusion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .conclusion-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  .conclusion-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid rgba(155,127,232,0.1);
+  }
+
+  .conclusion-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--accent1);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .conclusion-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .conclusion-card ul li {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .conclusion-card ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent1);
+  }
+
+  .cta-block {
+    text-align: center;
+    padding: 3rem;
+    background: var(--surface);
+    border-radius: 24px;
+    border: 1px solid rgba(155,127,232,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(155,127,232,0.08) 0%, transparent 70%);
+  }
+
+  .cta-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .cta-block p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SECTION TITLE ANIMATION ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
+  }
+
+  .section-title.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── CURSOR GLOW ── */
+  .cursor-glow {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(155,127,232,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 64px; left: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent2), var(--accent1), var(--accent3));
+    z-index: 101;
+    transition: width 0.1s linear;
+    width: 0%;
+  }
+
+  /* ── KIND CARD EXPANDED ── */
+  .kind-card { cursor: pointer; }
+  .kind-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    font-size: 0.82rem;
+    color: var(--accent3);
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  .kind-card.expanded .kind-detail { max-height: 80px; }
+  .kind-card.expanded { border-color: rgba(155,127,232,0.4); }
+
+  /* ── CAUSE ITEM PULSE ── */
+  .cause-item:hover .cause-num {
+    color: rgba(232,127,160,0.7);
+    transition: color 0.3s;
+  }
+
+  /* ── FLOATING PARTICLES ── */
+  .particle {
+    position: fixed;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0;
+    animation: particleFly var(--dur, 8s) var(--delay, 0s) ease-in infinite;
+  }
+
+  @keyframes particleFly {
+    0%   { opacity: 0; transform: translateY(100vh) translateX(0); }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-10vh) translateX(var(--drift, 30px)); }
+  }
+
+  /* ── RIPPLE ── */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(155,127,232,0.2);
+    transform: scale(0);
+    animation: rippleAnim 0.6s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* ── TOOLTIP ── */
+  [data-tip] {
+    position: relative;
+  }
+
+  [data-tip]::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: var(--surface2);
+    border: 1px solid rgba(155,127,232,0.3);
+    color: var(--text);
+    font-size: 0.72rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 200;
+  }
+
+  [data-tip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── SECTION REVEAL ── */
+  .reveal-block {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal-block.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes cardReveal {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* ── SCROLL COUNTER ── */
+  .counter { display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Подростковое одиночество</div>
+    <ul class="nav-links">
+      <li><a href="#kinds">Виды</a></li>
+      <li><a href="#causes">Причины</a></li>
+      <li><a href="#influence">Влияние</a></li>
+      <li><a href="#research">Исследование</a></li>
+      <li><a href="#methods">Методы</a></li>
+      <li><a href="#conclusion">Выводы</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Памятка · Глава I–II</div>
+  <h1 class="hero-title">Подростковое<br><span>одиночество</span></h1>
+  <p class="hero-subtitle">Комплексное исследование феномена: причины, влияние и методы преодоления одиночества в подростковом возрасте</p>
+  <div class="hero-stat-row">
+    <div class="hero-stat">
+      <span class="hero-stat-num">26%</span>
+      <span class="hero-stat-label">страдают одиночеством</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">36%</span>
+      <span class="hero-stat-label">в группе риска</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">4</span>
+      <span class="hero-stat-label">вида одиночества</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>прокрутите</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ГЛАВА 1 ═══════════════ -->
+
+<!-- KINDS -->
+<section id="kinds">
+  <div class="section-label">
+    <div class="section-label-chapter">I</div>
+    <div class="section-label-meta">
+      <span class="section-label-tag">Глава 1</span>
+      <span class="section-label-sub">§1.1 · Понятие и виды</span>
+    </div>
+    <div class="section-label-line"></div>
+  </div>
+  <h2 class="section-title">Понятие и <em>виды</em> одиночества</h2>
+  <div class="kinds-grid">
+    <div class="kind-card" data-tip="Нажмите для подробностей">
+      <div class="kind-icon">🌌</div>
+      <div class="kind-name">Космическое</div>
+      <div class="kind-desc">Отдалённость от причастности ко всему возможному — к истории, природе, космосу. Человек чувствует, что не реализовал себя в мире, хотя не испытывает нехватки общения.</div>
+      <div class="kind-detail">Ключевой признак: тоска не от нехватки людей, а от ощущения «незначимости» в масштабах бытия.</div>
+    </div>
+    <div class="kind-card" data-tip="Нажмите для подробностей">
+      <div class="kind-icon">🏛️</div>
+      <div class="kind-name">Культурное</div>
+      <div class="kind-desc">Избегание контакта с людьми другой культурной среды. Возникает при переезде или резкой смене ценностей общества, приводя к добровольной изоляции.</div>
+      <div class="kind-detail">Часто встречается у мигрантов и детей, переходящих в новый коллектив с другой атмосферой.</div>
+    </div>
+    <div class="kind-card" data-tip="Нажмите для подробностей">
+      <div class="kind-icon">💔</div>
+      <div class="kind-name">Межличностное</div>
+      <div class="kind-desc">Недостаток духовной связи с конкретной личностью. Ощущается при потере самого близкого человека — из-за ссоры, разлуки или утраты.</div>
+      <div class="kind-detail">Может возникнуть даже в окружении людей — если рядом нет «своего» человека.</div>
+    </div>
+    <div class="kind-card" data-tip="Нажмите для подробностей">
+      <div class="kind-icon">👥</div>
+      <div class="kind-name">Социальное</div>
+      <div class="kind-desc">Исключение из социальной группы. Подросток не принят одноклассниками или коллективом — и чувствует себя изолированным от общества.</div>
+      <div class="kind-detail">Наиболее распространённый вид среди подростков — связан с буллингом и отвержением.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- CAUSES -->
+<section id="causes">
+  <div class="section-label">
+    <div class="section-label-chapter">I</div>
+    <div class="section-label-meta">
+      <span class="section-label-tag">Глава 1</span>
+      <span class="section-label-sub">§1.2 · Причины</span>
+    </div>
+    <div class="section-label-line"></div>
+  </div>
+  <h2 class="section-title">Причины <em>подросткового</em> одиночества</h2>
+  <div class="causes-list">
+    <div class="cause-item">
+      <div class="cause-num">01</div>
+      <div class="cause-content">
+        <h3>Отсутствие опыта самопознания</h3>
+        <p>Подростки не могут оценить свой внутренний мир, что порождает неуверенность. Она, в свою очередь, отталкивает их от общения со сверстниками и родителями.</p>
+      </div>
+    </div>
+    <div class="cause-item">
+      <div class="cause-num">02</div>
+      <div class="cause-content">
+        <h3>Непринятие в социальную группу</h3>
+        <p>Конфликты, ссоры, издевательства и социальные отличия могут исключить ребёнка из класса. Без основной группы подросток закрывается в себе.</p>
+      </div>
+    </div>
+    <div class="cause-item">
+      <div class="cause-num">03</div>
+      <div class="cause-content">
+        <h3>Плохой пример общения в семье</h3>
+        <p>Наблюдение за нездоровыми отношениями в семье формирует страх перед общением. Подросток избегает контактов, чтобы не столкнуться с похожим опытом.</p>
+      </div>
+    </div>
+    <div class="cause-item">
+      <div class="cause-num">04</div>
+      <div class="cause-content">
+        <h3>Гиперопека родителей</h3>
+        <p>Чрезмерная забота порождает завышенные требования к другим людям. Это мешает взаимодействию со сверстниками и формированию дружеских связей.</p>
+      </div>
+    </div>
+    <div class="cause-item">
+      <div class="cause-num">05</div>
+      <div class="cause-content">
+        <h3>Нереалистичные представления об общении</h3>
+        <p>Подростки строят нереалистичные ожидания от отношений. Когда реальность их рушит — появляется нежелание общаться снова.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- INFLUENCE TABS -->
+<section id="influence">
+  <div class="section-label">
+    <div class="section-label-chapter">I</div>
+    <div class="section-label-meta">
+      <span class="section-label-tag">Глава 1</span>
+      <span class="section-label-sub">§1.3 · Влияние</span>
+    </div>
+    <div class="section-label-line"></div>
+  </div>
+  <h2 class="section-title">Влияние одиночества <em>на подростка</em></h2>
+
+  <div class="tab-buttons">
+    <button class="tab-btn positive active" onclick="switchTab('positive')">✦ Положительное</button>
+    <button class="tab-btn negative" onclick="switchTab('negative')">✦ Отрицательное</button>
+  </div>
+
+  <div id="tab-positive" class="tab-panel positive active">
+    <div class="influence-card">
+      <div class="inf-icon">🎯</div>
+      <div class="inf-title">Саморазвитие</div>
+      <div class="inf-desc">Изоляция от влияния других позволяет уделять больше времени себе и своим целям. Особенно важно для подростков, которые учатся добывать знания самостоятельно.</div>
+    </div>
+    <div class="influence-card">
+      <div class="inf-icon">🎨</div>
+      <div class="inf-title">Развитие креативности</div>
+      <div class="inf-desc">Свободное время одиноких подростков часто отдаётся творчеству. Многие известные писатели и художники провели школьные годы в уединении.</div>
+    </div>
+    <div class="influence-card">
+      <div class="inf-icon">🌿</div>
+      <div class="inf-title">Отдых и восстановление</div>
+      <div class="inf-desc">Подростковый возраст насыщен деятельностью. Уединение становится спасительным ресурсом, когда нет возможности нормально отдохнуть.</div>
+    </div>
+    <div class="influence-card">
+      <div class="inf-icon">🔍</div>
+      <div class="inf-title">Самопознание</div>
+      <div class="inf-desc">Обособленность невольно заставляет изучать себя: свои сильные и слабые стороны, потребности и жизненные цели.</div>
+    </div>
+  </div>
+
+  <div id="tab-negative" class="tab-panel negative">
+    <div class="influence-card">
+      <div class="inf-icon">🏥</div>
+      <div class="inf-title">Ухудшение здоровья</div>
+      <div class="inf-desc">Стресс от обособленности провоцирует вредные привычки и снижение физической активности, что напрямую влияет на организм.</div>
+    </div>
+    <div class="influence-card">
+      <div class="inf-icon">💬</div>
+      <div class="inf-title">Снижение коммуникабельности</div>
+      <div class="inf-desc">Без практики общения коммуникативные навыки деградируют. В итоге подросток утрачивает способность нормально взаимодействовать с людьми.</div>
+    </div>
+    <div class="influence-card">
+      <div class="inf-icon">😔</div>
+      <div class="inf-title">Снижение качества жизни</div>
+      <div class="inf-desc">Уровень счастья напрямую зависит от социальной поддержки. Одинокие подростки хронически чувствуют неудовлетворённость жизнью.</div>
+    </div>
+    <div class="influence-card">
+      <div class="inf-icon">🧠</div>
+      <div class="inf-title">Психические расстройства</div>
+      <div class="inf-desc">Эмоциональная нестабильность подросткового возраста в сочетании с одиночеством способна спровоцировать серьёзные психические нарушения.</div>
+    </div>
+    <div class="influence-card">
+      <div class="inf-icon">🚫</div>
+      <div class="inf-title">Недоверие к людям</div>
+      <div class="inf-desc">Без привычки к общению в подростковом возрасте человек не научится доверять людям. Доверие — основа здорового общества.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ГЛАВА 2 ═══════════════ -->
+
+<div class="divider"><hr></div>
+
+<!-- RESEARCH -->
+<section id="research" style="max-width: 100%; padding: 6rem 0;">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 2rem; margin-bottom: 2.5rem;">
+    <div class="section-label">
+      <div class="section-label-chapter">II</div>
+      <div class="section-label-meta">
+        <span class="section-label-tag">Глава 2</span>
+        <span class="section-label-sub">§2.1 · Исследование</span>
+      </div>
+      <div class="section-label-line"></div>
+    </div>
+    <h2 class="section-title">Результаты <em>исследования</em></h2>
+  </div>
+  <div class="research-section" style="margin: 0 auto;">
+    <div class="stats-grid">
+      <div class="stat-block">
+        <span class="stat-value p1" id="cnt1">37%</span>
+        <div class="stat-desc">чувствуют себя ненужными часто</div>
+      </div>
+      <div class="stat-block">
+        <span class="stat-value p2" id="cnt2">26%</span>
+        <div class="stat-desc">подростков страдают одиночеством</div>
+      </div>
+      <div class="stat-block">
+        <span class="stat-value p3" id="cnt3">74%</span>
+        <div class="stat-desc">испытывают приступы печали часто</div>
+      </div>
+      <div class="stat-block">
+        <span class="stat-value p4" id="cnt4">72%</span>
+        <div class="stat-desc">имеют менее 3 друзей или не имеют</div>
+      </div>
+    </div>
+    <div class="research-conclusion">
+      В опросе участвовали <strong>50 подростков 11–17 лет</strong>. По итогам: <strong>13 из 50</strong> страдают одиночеством, у <strong>18 из 50</strong> оно постепенно развивается. Результаты подтверждают гипотезу о широком распространении проблемы в современном обществе.
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- METHODS -->
+<section id="methods">
+  <div class="section-label">
+    <div class="section-label-chapter">II</div>
+    <div class="section-label-meta">
+      <span class="section-label-tag">Глава 2</span>
+      <span class="section-label-sub">§2.2 · Методы</span>
+    </div>
+    <div class="section-label-line"></div>
+  </div>
+  <h2 class="section-title">Методы <em>борьбы</em> с одиночеством</h2>
+  <div class="methods-grid">
+    <div class="method-card">
+      <div class="method-num">01</div>
+      <div class="method-badge badge-low">◎ Низкая эффективность</div>
+      <div class="method-name">Чтение книг по коммуникации</div>
+      <div class="method-desc">Подросток читает специальную литературу, развивающую навыки общения. Теория без практики, однако, слабо помогает преодолеть реальное одиночество.</div>
+      <div class="method-footer">
+        <span class="method-eff-label">Эффективность</span>
+        <div class="method-eff-stars">
+          <div class="star filled"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        </div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">02</div>
+      <div class="method-badge badge-low">◎ Низкая эффективность</div>
+      <div class="method-name">Принятие собственных чувств</div>
+      <div class="method-desc">Признать одиночество и перестать считать его проблемой. Однако принятие не устраняет саму проблему — проблемы нужно решать, а не принимать.</div>
+      <div class="method-footer">
+        <span class="method-eff-label">Эффективность</span>
+        <div class="method-eff-stars">
+          <div class="star filled"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        </div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">03</div>
+      <div class="method-badge badge-med">◈ Высокая эффективность</div>
+      <div class="method-name">Мероприятия и активности</div>
+      <div class="method-desc">Участие в командных активностях и посещение мероприятий. Общее дело объединяет людей — даже самый закрытый подросток может найти там компанию.</div>
+      <div class="method-footer">
+        <span class="method-eff-label">Эффективность</span>
+        <div class="method-eff-stars">
+          <div class="star filled"></div><div class="star filled"></div><div class="star filled"></div><div class="star filled"></div><div class="star"></div>
+        </div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-num">04</div>
+      <div class="method-badge badge-high">★ Максимальная эффективность</div>
+      <div class="method-name">Работа со специалистом</div>
+      <div class="method-desc">Профессиональная помощь психолога или социального педагога. Наиболее эффективный метод, хотя доступен не всем из-за стоимости и дефицита специалистов.</div>
+      <div class="method-footer">
+        <span class="method-eff-label">Эффективность</span>
+        <div class="method-eff-stars">
+          <div class="star filled"></div><div class="star filled"></div><div class="star filled"></div><div class="star filled"></div><div class="star filled"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+  <div class="section-label">
+    <div class="section-label-chapter">✓</div>
+    <div class="section-label-meta">
+      <span class="section-label-tag">Заключение</span>
+      <span class="section-label-sub">Выводы и рекомендации</span>
+    </div>
+    <div class="section-label-line"></div>
+  </div>
+  <h2 class="section-title">Выводы и <em>рекомендации</em></h2>
+  <div class="conclusion-grid">
+    <div class="conclusion-card">
+      <h3>👨‍👩‍👧 Рекомендации родителям</h3>
+      <ul>
+        <li>Не допускайте гиперопеки — дайте подростку пространство для самостоятельности</li>
+        <li>Показывайте здоровую модель общения внутри семьи</li>
+        <li>Замечайте признаки социальной изоляции вовремя</li>
+        <li>При необходимости обратитесь к специалисту — это не слабость, а забота</li>
+        <li>Поощряйте участие в кружках, секциях и коллективных мероприятиях</li>
+      </ul>
+    </div>
+    <div class="conclusion-card">
+      <h3>🧑‍🎓 Рекомендации подросткам</h3>
+      <ul>
+        <li>Попробуй найти занятие, связанное с командной работой</li>
+        <li>Не жди идеальных условий — сделай первый шаг навстречу</li>
+        <li>Одиночество — это состояние, а не приговор: его можно изменить</li>
+        <li>Поговори с доверенным взрослым о своих переживаниях</li>
+        <li>Помни: у 74% подростков тоже бывают приступы печали</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cta-block">
+    <h2>Давайте поможем подросткам вместе!</h2>
+    <p>Подростковое одиночество — широко распространённая проблема, которая рушит жизни молодых людей. Внимание и поддержка взрослых могут изменить всё.</p>
+  </div>
+</section>
+
+<footer>
+  Памятка составлена на основе исследовательского проекта · На основе работы С.Г. Корчагиной
+</footer>
+
+<script>
+  // ── PROGRESS BAR ──
+  const progressBar = document.createElement('div');
+  progressBar.className = 'progress-bar';
+  document.body.appendChild(progressBar);
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    progressBar.style.width = (scrolled / total * 100) + '%';
+  });
+
+  // ── CURSOR GLOW ──
+  const glow = document.createElement('div');
+  glow.className = 'cursor-glow';
+  document.body.appendChild(glow);
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+
+  // ── FLOATING PARTICLES ──
+  const colors = ['#9b7fe8','#e87fa0','#7fd8e8','#e8c87f'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.setProperty('--dur', (6 + Math.random() * 10) + 's');
+    p.style.setProperty('--delay', (Math.random() * 10) + 's');
+    p.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+    p.style.left = (Math.random() * 100) + 'vw';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    document.body.appendChild(p);
+  }
+
+  // ── TAB SWITCHER ──
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.querySelector('.tab-btn.' + tab).classList.add('active');
+  }
+
+  // ── KIND CARDS EXPAND ON CLICK ──
+  document.querySelectorAll('.kind-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      // ripple
+      const rect = card.getBoundingClientRect();
+      const rip = document.createElement('div');
+      rip.className = 'ripple';
+      rip.style.width = rip.style.height = '60px';
+      rip.style.left = (e.clientX - rect.left - 30) + 'px';
+      rip.style.top = (e.clientY - rect.top - 30) + 'px';
+      card.appendChild(rip);
+      setTimeout(() => rip.remove(), 700);
+
+      const wasExpanded = card.classList.contains('expanded');
+      document.querySelectorAll('.kind-card').forEach(c => c.classList.remove('expanded'));
+      if (!wasExpanded) card.classList.add('expanded');
+    });
+  });
+
+  // ── RIPPLE ON METHOD CARDS ──
+  document.querySelectorAll('.method-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const rect = card.getBoundingClientRect();
+      const rip = document.createElement('div');
+      rip.className = 'ripple';
+      rip.style.width = rip.style.height = '80px';
+      rip.style.left = (e.clientX - rect.left - 40) + 'px';
+      rip.style.top = (e.clientY - rect.top - 40) + 'px';
+      card.appendChild(rip);
+      setTimeout(() => rip.remove(), 700);
+    });
+  });
+
+  // ── INTERSECTION OBSERVER — cards, causes ──
+  const cardObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const siblings = Array.from(el.parentNode.children);
+        const idx = siblings.indexOf(el);
+        setTimeout(() => {
+          el.classList.add('visible');
+          el.style.animationDelay = (idx * 0.1) + 's';
+        }, idx * 80);
+        cardObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.kind-card, .cause-item, .method-card').forEach(el => cardObs.observe(el));
+
+  // ── INTERSECTION OBSERVER — section labels & titles ──
+  const labelObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        labelObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.section-label, .section-title, .reveal-block').forEach(el => labelObs.observe(el));
+
+  // ── COUNTER ANIMATION ──
+  function animateCounter(el, target, suffix) {
+    const num = parseInt(target);
+    let current = 0;
+    const step = Math.ceil(num / 50);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, num);
+      el.textContent = current + suffix;
+      if (current >= num) clearInterval(interval);
+    }, 30);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(document.getElementById('cnt1'), 37, '%');
+        animateCounter(document.getElementById('cnt2'), 26, '%');
+        animateCounter(document.getElementById('cnt3'), 74, '%');
+        animateCounter(document.getElementById('cnt4'), 72, '%');
+        counterObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  counterObserver.observe(document.querySelector('.research-section'));
+
+  // ── STAR RATING HOVER ──
+  document.querySelectorAll('.method-eff-stars').forEach(stars => {
+    const dots = stars.querySelectorAll('.star');
+    dots.forEach((dot, i) => {
+      dot.addEventListener('mouseenter', () => {
+        dots.forEach((d, j) => {
+          d.style.background = j <= i ? 'var(--accent1)' : 'rgba(155,127,232,0.2)';
+          d.style.transform = j <= i ? 'scale(1.4)' : 'scale(1)';
+          d.style.transition = 'all 0.2s';
+        });
+      });
+    });
+    stars.addEventListener('mouseleave', () => {
+      dots.forEach(d => { d.style.background = ''; d.style.transform = ''; });
+    });
+  });
+
+  // ── NAV ACTIVE LINK ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent1)' : '';
+    });
+  });
+</script>
+</body>
+</html>
